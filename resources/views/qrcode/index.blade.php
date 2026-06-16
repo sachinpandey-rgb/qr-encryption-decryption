@@ -49,6 +49,12 @@
             border-radius: 8px;
             padding: 5px;
             background: #fff;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .qr-image:hover {
+            transform: scale(1.05);
         }
 
         .badge-id {
@@ -121,6 +127,8 @@
                         <th width="80">#</th>
                         <th>Unique ID</th>
                         <th width="150">QR Preview</th>
+                        <th width="100">Scans</th>
+                        <th width="200">Actions</th>
                     </tr>
                 </thead>
 
@@ -140,17 +148,46 @@
                         </td>
 
                         <td class="text-center">
-                            <img
-                                src="{{ asset('storage/'.$qr->qr_image) }}"
-                                alt="QR Code"
-                                class="qr-image">
+                            <a href="{{ route('qrcode.show', $qr->unique_id) }}">
+                                <img
+                                    src="{{ asset('storage/'.$qr->qr_image) }}"
+                                    alt="QR Code"
+                                    class="qr-image"
+                                    title="Click to view full QR">
+                            </a>
+                        </td>
+
+                        <td class="text-center">
+                            {{ $qr->scan_count ?? 0 }}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="{{ route('qrcode.show', $qr->unique_id) }}"
+                               class="btn btn-sm btn-primary mb-1"
+                               title="Open full QR for scanning">
+                                <i class="fas fa-expand"></i> View QR
+                            </a>
+                            <br>
+                            @if($qr->activeToken)
+                                <a href="/v/{{ $qr->activeToken->token }}"
+                                   class="btn btn-sm btn-outline-primary"
+                                   target="_blank">
+                                    Verify
+                                </a>
+                            @else
+                                <a href="/scan?str={{ $qr->unique_id }}"
+                                   class="btn btn-sm btn-outline-secondary"
+                                   target="_blank">
+                                    Legacy
+                                </a>
+                            @endif
                         </td>
                     </tr>
 
                 @empty
 
                     <tr>
-                        <td colspan="3">
+                        <td colspan="5">
 
                             <div class="empty-state">
                                 <i class="fas fa-qrcode fa-3x mb-3"></i>

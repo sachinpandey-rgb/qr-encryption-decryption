@@ -6,7 +6,7 @@ class QrEncryption
 {
     public static function encrypt(array $data): string
     {
-        $secretKey = env('QR_SECRET_KEY');
+        $secretKey = config('qr.secret_key');
 
         $key = hash('sha256', $secretKey, true);
 
@@ -30,7 +30,7 @@ class QrEncryption
 
     public static function decrypt(string $payload): array
     {
-        $secretKey = env('QR_SECRET_KEY');
+        $secretKey = config('qr.secret_key');
 
         $key = hash('sha256', $secretKey, true);
 
