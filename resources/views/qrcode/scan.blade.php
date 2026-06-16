@@ -128,7 +128,20 @@
 
                 <div class="card-footer text-center bg-light">
 
-                    <a href="/" class="btn btn-outline-primary btn-sm">
+                    @if(! empty($appRedirect))
+                        <a href="{{ $appRedirect['deepLink'] }}"
+                           class="btn btn-primary btn-sm mr-2 mb-1">
+                            Open in {{ $appRedirect['appName'] }}
+                        </a>
+                        <a href="{{ $appRedirect['playStoreUrl'] }}"
+                           class="btn btn-outline-success btn-sm mr-2 mb-1"
+                           target="_blank"
+                           rel="noopener">
+                            Get App
+                        </a>
+                    @endif
+
+                    <a href="/" class="btn btn-outline-secondary btn-sm mb-1">
                         Back to QR List
                     </a>
 
